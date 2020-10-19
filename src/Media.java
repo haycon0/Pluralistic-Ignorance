@@ -1,11 +1,11 @@
 public class Media {
     private final int id;
-    private Belief rhetoric;
+    private Belief belief;
     private int prevalence;
 
     Media(int id, Belief rhetoric, int prevalence) {
         this.id = id;
-        this.rhetoric = rhetoric;
+        this.belief = rhetoric;
         this.prevalence = prevalence;
     }
 
@@ -13,8 +13,8 @@ public class Media {
         return id;
     }
 
-    public Belief getRhetoric() {
-        return rhetoric;
+    public Belief getBelief() {
+        return belief;
     }
 
     public int getPrevalence() {

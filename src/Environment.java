@@ -5,13 +5,15 @@ import java.util.Vector;
 public class Environment {
     private Vector<Person> personList;
     private Vector<Media> mediaList;
+    private Vector<Integer> prevalenceList; // List of the sum of the sum of the prevalence's after corresponding media was added
     private Vector<Belief> beliefList;
-    private int numberOfInteractions;
+    private int numberOfInteractions; // number of interactions to be simulated
 
     Environment(int numPeople, int numMedia, int numBelief, int numberOfInteractions) {
         personList = new Vector<Person>();
         mediaList = new Vector<Media>();
         beliefList = new Vector<Belief>();
+        prevalenceList = new Vector<Integer>();
         for (int x = 0; x < numBelief; x++) {
             addBelief();
         }
@@ -29,19 +31,33 @@ public class Environment {
 
     private void sim_interactions() {
         Random random = new Random();
-        int personID;
-        int mediaID;
-        int totalPrevalence = 0;
-        for (Media value : mediaList) // adds up total prevalence
-            totalPrevalence += value.getPrevalence();
+        int personID; // ID of person in the interaction
+        int prevalenceNum; // number used to determine media in the interaction
+        int totalPrevalence = prevalenceList.lastElement(); // upper bound for prevalenceNum
+
+        // binary search variables
+        int searchBegin;
+        int searchMid;
+        int searchLast;
+
+
         for (int x = 0; x < numberOfInteractions; x++) {
             personID = random.nextInt(personList.size()); // gets id to select person at random from list
-            mediaID = random.nextInt(totalPrevalence); // gets int lower than the total prevalence to select media weighted by prevalence
-            for (Media media : mediaList) {
-                mediaID -= media.getPrevalence(); // decrements the total prevalence until
-                if (mediaID < 0) {
-                    personList.get(personID).addInteraction(media);
+            prevalenceNum = random.nextInt(totalPrevalence); // gets int lower than the total prevalence to select media weighted by prevalence
+
+            // Binary search to find ID of media that the prevalenceNum corresponds to
+            searchLast = prevalenceList.size() - 1;
+            searchBegin = 0;
+            while (true) {
+                searchMid = (searchBegin + searchLast) / 2;
+                if (searchMid == 0 || (prevalenceList.get(searchMid) > prevalenceNum && prevalenceList.get(searchMid - 1) <= prevalenceNum)) {
+                    personList.get(personID).addInteraction(mediaList.get(searchMid));
                     break;
+                }
+                if (prevalenceList.get(searchMid) > prevalenceNum) {
+                    searchLast = searchMid - 1;
+                } else {
+                    searchBegin = searchMid + 1;
                 }
             }
         }
@@ -65,6 +81,10 @@ public class Environment {
         System.out.println("Enter Rhetoric ID:");
         int beliefID = scanner.nextInt();
         mediaList.add(new Media(id, beliefList.get(beliefID), prevalence));
+        if (prevalenceList.size() == 0)
+            prevalenceList.add(prevalence);
+        else
+            prevalenceList.add(prevalenceList.lastElement() + prevalence);
     }
 
     private void addBelief() {
@@ -82,9 +102,9 @@ public class Environment {
     }
 
     public static void main(String args[]) {
-        int numPeople = 1;
-        int numMedia = 2;
-        int numBeliefs = 2;
+        int numPeople = 10;
+        int numMedia = 5;
+        int numBeliefs = 5;
         int numInteractions = 1000;
         Environment environment = new Environment(numPeople, numMedia, numBeliefs, numInteractions);
         environment.sim_interactions();
