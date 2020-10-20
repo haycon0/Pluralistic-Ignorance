@@ -7,7 +7,7 @@ public class Person {
     private final Belief baseBelief;
     private final int conviction;
     private Vector<Media> mediaInteractions;
-    private Map<Integer, Integer> mediaInteraction;
+    private Map<Integer, Integer> mediaInteractionCounts;
     private Map<Integer, Belief> knownBeliefs;
     private int maxInteractionAmount;
     private int maxInteractionID;
@@ -17,7 +17,7 @@ public class Person {
         this.baseBelief = baseBelief;
         this.conviction = conviction;
         mediaInteractions = new Vector<Media>(); //Stores all media interactions
-        mediaInteraction = new TreeMap<Integer, Integer>(); // Stores the ID and number of interactions with each belief
+        mediaInteractionCounts = new TreeMap<Integer, Integer>(); // Stores the ID and number of interactions with each belief
         knownBeliefs = new TreeMap<Integer, Belief>(); // Stores the beliefs of media interacted with
     }
 
@@ -34,7 +34,12 @@ public class Person {
     }
 
     public Belief expressBelief() {
-        int cNum = (conviction + 4) * mediaInteractions.size() / 10; // determines the number of media interactions needed to
+
+        // determines the number of media interactions needed to overcome conviction
+        // example a conviction of 5 means at least 90% (= 5 + 4 / 10) of interactions
+        // have to be with a different belief to overcome conviction
+        int cNum = (conviction + 4) * mediaInteractions.size() / 10;
+
         if (maxInteractionAmount > cNum)
             return knownBeliefs.get(maxInteractionID);
         return baseBelief;
@@ -50,12 +55,12 @@ public class Person {
 
         // adds new belief ID encountered to the media interaction trees and increments value
         mediaBeliefID = media.getBelief().getId();
-        if (mediaInteraction.containsKey(mediaBeliefID)) {
-            oldCount = mediaInteraction.get(mediaBeliefID);
-            mediaInteraction.put(mediaBeliefID, oldCount + 1);
+        if (mediaInteractionCounts.containsKey(mediaBeliefID)) {
+            oldCount = mediaInteractionCounts.get(mediaBeliefID);
+            mediaInteractionCounts.put(mediaBeliefID, oldCount + 1);
         } else {
             oldCount = 0;
-            mediaInteraction.put(mediaBeliefID, 1);
+            mediaInteractionCounts.put(mediaBeliefID, 1);
         }
 
         // adds belief of media to knownBelief tree if needed
@@ -63,7 +68,7 @@ public class Person {
             knownBeliefs.put(mediaBeliefID, media.getBelief());
         }
 
-        // determines if the belief of new interaction is the new most interacted with
+        // determines if the belief of new interaction is the new most encountered
         if (oldCount + 1 > maxInteractionAmount) {
             maxInteractionAmount = oldCount + 1;
             maxInteractionID = mediaBeliefID;
