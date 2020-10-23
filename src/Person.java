@@ -6,6 +6,9 @@ public class Person {
     private final int id;
     private final Belief baseBelief;
     private final int conviction;
+    private final String name;
+
+    // these data structures are to calculate expressed belief
     private Vector<Media> mediaInteractions;
     private Map<Integer, Integer> mediaInteractionCounts;
     private Map<Integer, Belief> knownBeliefs;
@@ -16,6 +19,17 @@ public class Person {
         this.id = id;
         this.baseBelief = baseBelief;
         this.conviction = conviction;
+        name = "Person" + id;
+        mediaInteractions = new Vector<Media>(); //Stores all media interactions
+        mediaInteractionCounts = new TreeMap<Integer, Integer>(); // Stores the ID and number of interactions with each belief
+        knownBeliefs = new TreeMap<Integer, Belief>(); // Stores the beliefs of media interacted with
+    }
+
+    Person(int id, Belief baseBelief, int conviction, String name) {
+        this.id = id;
+        this.baseBelief = baseBelief;
+        this.conviction = conviction;
+        this.name = name;
         mediaInteractions = new Vector<Media>(); //Stores all media interactions
         mediaInteractionCounts = new TreeMap<Integer, Integer>(); // Stores the ID and number of interactions with each belief
         knownBeliefs = new TreeMap<Integer, Belief>(); // Stores the beliefs of media interacted with
@@ -33,12 +47,16 @@ public class Person {
         return conviction;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public Belief expressBelief() {
 
         // determines the number of media interactions needed to overcome conviction
         // example a conviction of 5 means at least 90% (= 5 + 4 / 10) of interactions
         // have to be with a different belief to overcome conviction
-        int cNum = (conviction + 4) * mediaInteractions.size() / 10;
+        int cNum = (conviction + 3) * mediaInteractions.size() / 10;
 
         if (maxInteractionAmount > cNum)
             return knownBeliefs.get(maxInteractionID);
@@ -73,7 +91,5 @@ public class Person {
             maxInteractionAmount = oldCount + 1;
             maxInteractionID = mediaBeliefID;
         }
-
-
     }
 }
