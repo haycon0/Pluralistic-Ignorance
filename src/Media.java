@@ -33,6 +33,14 @@ public class Media {
         return id;
     }
 
+    public Person getRhetor() {
+        return rhetor;
+    }
+
+    public boolean isPopularMedia() {
+        return popularMedia;
+    }
+
     public Belief getBelief() {
         if (rhetor != null)
             belief = rhetor.expressBelief();

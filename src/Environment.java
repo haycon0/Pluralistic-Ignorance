@@ -157,7 +157,7 @@ public class Environment {
         conviction = (int) (random.nextGaussian() * sdCon + avgConviction + 0.5);
         if (conviction < 0)
             conviction = 0;
-        addPerson(conviction, personID);
+        addPerson(conviction, beliefID);
         addPersonalMedia(beliefID, avgPrevalence, sdPrev, personID);
     }
 
@@ -241,13 +241,18 @@ public class Environment {
         addToMediaStructures(media);
     }
 
+    private void addBeliefs(int count) {
+        for (int x = 0; x < count; x++)
+            addBelief();
+    }
+
     private void addBelief() {
         int id = beliefList.size();
         beliefList.add(new Belief(id));
         expressedBeliefsCount.add(0);
     }
 
-    private void printStats() {
+    private void printPeople() {
         System.out.println("ID   Base Belief   Expressed Belief");
         for (Person person : personList) {
             System.out.print(person.getId() + " ");
@@ -256,28 +261,138 @@ public class Environment {
         }
     }
 
+    private void printMedia() {
+        System.out.println("ID   Belief   Popular   Person");
+        for (Media media : mediaList) {
+            System.out.print(media.getId() + " ");
+            System.out.print(media.getBelief().getName() + " ");
+            System.out.print(media.isPopularMedia() + " ");
+            if (media.getRhetor() != null)
+                System.out.println(media.getRhetor().getName());
+            else
+                System.out.println("n/a");
+        }
+    }
+
+    private void printBeliefs() {
+        System.out.println("ID   Name   Count");
+        for (Belief belief : beliefList) {
+            System.out.print(belief.getId() + " ");
+            System.out.print(belief.getName() + " ");
+            System.out.println(expressedBeliefsCount.get(belief.getId()));
+        }
+        if (popularBelief != null)
+            System.out.println("The popular belief is: " + popularBelief.getName());
+    }
+
+    private void printMenu() {
+        System.out.println("Enter one of following numbers:");
+        System.out.println("1 - Create New Beliefs");
+        System.out.println("2 - Create New Media");
+        System.out.println("3 - Create New People");
+        System.out.println("4 - Simulate Multiple Media Interactions");
+        System.out.println("5 - Create Specific Media Interactions");
+        System.out.println("6 - Print Media");
+        System.out.println("7 - Print People");
+        System.out.println("8 - Print Beliefs");
+    }
+
+    private void commandLineController(int num) {
+        Scanner scanner = new Scanner(System.in);
+        int count;
+        int beliefID;
+        switch (num) {
+            case 1://Add Belief
+                System.out.println("Enter Number of Beliefs: ");
+                count = scanner.nextInt();
+                addBeliefs(count);
+                break;
+            case 2://Add Media
+                System.out.println("Enter Number of Media: ");
+                count = scanner.nextInt();
+                System.out.println("Enter Average Prevalence of Media: ");
+                int averagePrev = scanner.nextInt();
+                System.out.println("Enter Std Dev of Prevalence (0 will result in prevalence = avg): ");
+                double stdDevPrev = scanner.nextDouble();
+                System.out.println("Enter Belief ID:");
+                beliefID = scanner.nextInt();
+                System.out.println("Is media popular? (true or false)");
+                boolean popular = scanner.nextBoolean();
+                if (popular) {
+                    addPopularMedias(beliefID, averagePrev, stdDevPrev, count);
+                } else {
+                    System.out.println("Is Media Personal? (true or false)");
+                    boolean personal = scanner.nextBoolean();
+                    if (personal) {
+                        System.out.println("Create New People? (true or false)");
+                        boolean newPerson = scanner.nextBoolean();
+                        if (newPerson) {
+                            System.out.println("Enter Average Conviction of People: ");
+                            int averageCon = scanner.nextInt();
+                            System.out.println("Enter Std Dev of Conviction (0 will result in prevalence = avg): ");
+                            double stdDevCon = scanner.nextDouble();
+                            addPersonsWithMedia(beliefID, averagePrev, stdDevPrev, averageCon, stdDevCon, count);
+                        } else {
+                            for (int x = 0; x < count; x++) {
+                                System.out.println("Enter ID of Person Attaching to Media:");
+                                int personID = scanner.nextInt();
+                                addPersonalMedia(beliefID, averagePrev, stdDevPrev, personID);
+                            }
+                        }
+                    } else {
+                        addMedias(beliefID, averagePrev, stdDevPrev, count);
+                    }
+                }
+                break;
+            case 3://Add Person
+                System.out.println("Enter Number of People: ");
+                count = scanner.nextInt();
+                System.out.println("Enter Average Conviction of People: ");
+                int averageCon = scanner.nextInt();
+                System.out.println("Enter Std Dev of Conviction (0 will result in prevalence = avg): ");
+                double stdDevCon = scanner.nextDouble();
+                System.out.println("Enter Belief ID:");
+                beliefID = scanner.nextInt();
+                addPeople(beliefID, averageCon, stdDevCon, count);
+                break;
+            case 4://Sim Media interactions
+                System.out.println("Enter Number of Media Interactions:");
+                count = scanner.nextInt();
+                sim_interactions(count);
+                break;
+            case 5://Create specific interaction
+                System.out.println("Enter ID of Media: ");
+                int mediaID = scanner.nextInt();
+                System.out.println("Enter ID of Person:");
+                int personID = scanner.nextInt();
+                mediaInteraction(mediaID, personID);
+                break;
+            case 6:
+                printMedia();
+                break;
+            case 7:
+                printPeople();
+                break;
+            case 8:
+                printBeliefs();
+                break;
+            default:
+                System.out.println("Invalid Number");
+        }
+        printMenu();
+    }
+
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int command = 0;
         int numPeople = 0;
         int numMedia = 0;
         int numBeliefs = 2;
         Environment environment = new Environment(numPeople, numMedia, numBeliefs);
-        environment.addPerson(1, 0);
-        environment.addPerson(7, 0);
-        environment.addPerson(3, 0);
-        environment.addPerson(0, 0);
-        environment.addPerson(1, 1);
-        environment.addPerson(7, 1);
-        environment.addPerson(3, 1);
-        environment.addPerson(0, 1);
-        environment.addPerson(0, 1);
-        environment.addMedia(0, 1, 0);
-        environment.addPersonWithMedia(1, 1, 0, 1, 0);
-        environment.mediaInteraction(0, 1);
-        environment.mediaInteraction(0, 0);
-        environment.sim_interactions(100);
-        environment.printStats();
-        environment.addMedia(0, 100, 1);
-        environment.sim_interactions(1000);
-        environment.printStats();
+        environment.printMenu();
+        while (command != -1) {
+            command = scanner.nextInt();
+            environment.commandLineController(command);
+        }
     }
 }
