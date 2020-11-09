@@ -54,9 +54,9 @@ public class Person {
     public Belief expressBelief() {
 
         // determines the number of media interactions needed to overcome conviction
-        // example a conviction of 5 means at least 90% (= 5 + 4 / 10) of interactions
+        // example a conviction of 50 means at least 50% of interactions
         // have to be with a different belief to overcome conviction
-        int cNum = (conviction + 3) * mediaInteractions.size() / 10;
+        int cNum = (conviction) * mediaInteractions.size() / 100;
 
         if (maxInteractionAmount > cNum)
             return knownBeliefs.get(maxInteractionID);

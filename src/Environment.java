@@ -1,3 +1,8 @@
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.Vector;
@@ -38,7 +43,23 @@ public class Environment {
         }
     }
 
-    private void sim_interactions(int numberOfInteractions) {
+    public Vector<Person> getPersonList() {
+        return personList;
+    }
+
+    public Vector<Belief> getBeliefList() {
+        return beliefList;
+    }
+
+    public Vector<Media> getMediaList() {
+        return mediaList;
+    }
+
+    public Belief getPopularBelief() {
+        return popularBelief;
+    }
+
+    public void sim_interactions(int numberOfInteractions) {
 
         Random random = new Random();
         int personID; // ID of person in the interaction
@@ -59,9 +80,18 @@ public class Environment {
             searchLast = prevalenceList.size() - 1;
             searchBegin = 0;
             while (true) {
-                searchMid = (searchBegin + searchLast) / 2;
-                if (searchMid == 0 || (prevalenceList.get(searchMid) > prevalenceNum && prevalenceList.get(searchMid - 1) <= prevalenceNum)) {
-                    mediaInteraction(searchMid, personID);
+                searchMid = (searchLast + searchBegin) / 2;
+                if (searchMid < 0 || searchMid >= mediaList.size())
+                    break;
+                //Checks to ensure personal media doesn't interact with itself
+                if (prevalenceList.get(searchMid) > prevalenceNum && (searchMid == 0 || prevalenceList.get(searchMid - 1) <= prevalenceNum)) {
+                    if (mediaList.get(searchMid).getRhetor() == null || mediaList.get(searchMid).getRhetor().getId() != personID) {
+                        mediaInteraction(searchMid, personID);
+                    } else {
+                        if (!(mediaList.size() == 1 && personList.size() == 1)) { //If only single person and media exists don't want program to loop
+                            x--; //Makes sure x interactions take place
+                        }
+                    }
                     break;
                 }
                 if (prevalenceList.get(searchMid) > prevalenceNum) {
@@ -112,7 +142,7 @@ public class Environment {
             popularBelief = beliefList.get(beliefID);
     }
 
-    private void addPeople(int beliefID, int avgConviction, double sd, int count) {
+    public void addPeople(int beliefID, int avgConviction, double sd, int count) {
         int conviction;
         Random random = new Random();
 
@@ -145,7 +175,7 @@ public class Environment {
             prevalenceList.add(prevalenceList.lastElement() + media.getPrevalence());
     }
 
-    private void addPersonsWithMedia(int beliefID, int avgPrevalence, double sdPrev, int avgConviction, double sdCon, int count) {
+    public void addPersonsWithMedia(int beliefID, int avgPrevalence, double sdPrev, int avgConviction, double sdCon, int count) {
         for (int x = 0; x < count; x++)
             addPersonWithMedia(beliefID, avgPrevalence, sdPrev, avgConviction, sdCon);
     }
@@ -161,7 +191,7 @@ public class Environment {
         addPersonalMedia(beliefID, avgPrevalence, sdPrev, personID);
     }
 
-    private void addMedias(int beliefID, int avgPrevalence, double sd, int count) {
+    public void addMedias(int beliefID, int avgPrevalence, double sd, int count) {
         for (int x = 0; x < count; x++) {
             addMedia(beliefID, avgPrevalence, sd);
         }
@@ -181,7 +211,7 @@ public class Environment {
         addToMediaStructures(media);
     }
 
-    private void addPopularMedias(int beliefID, int avgPrevalence, double sd, int count) {
+    public void addPopularMedias(int beliefID, int avgPrevalence, double sd, int count) {
         for (int x = 0; x < count; x++) {
             addPopularMedia(beliefID, avgPrevalence, sd);
         }
@@ -201,7 +231,7 @@ public class Environment {
         addToMediaStructures(media);
     }
 
-    private void addPersonalMedia(int beliefID, int avgPrevalence, double sd, int personID) {
+    public void addPersonalMedia(int beliefID, int avgPrevalence, double sd, int personID) {
         int prevalence;
         Random random = new Random();
         int id = mediaList.size();
@@ -241,7 +271,7 @@ public class Environment {
         addToMediaStructures(media);
     }
 
-    private void addBeliefs(int count) {
+    public void addBeliefs(int count) {
         for (int x = 0; x < count; x++)
             addBelief();
     }
@@ -285,7 +315,7 @@ public class Environment {
             System.out.println("The popular belief is: " + popularBelief.getName());
     }
 
-    private void printMenu() {
+    public void printMenu() {
         System.out.println("Enter one of following numbers:");
         System.out.println("1 - Create New Beliefs");
         System.out.println("2 - Create New Media");
@@ -297,7 +327,7 @@ public class Environment {
         System.out.println("8 - Print Beliefs");
     }
 
-    private void commandLineController(int num) {
+    public void commandLineController(int num) {
         Scanner scanner = new Scanner(System.in);
         int count;
         int beliefID;
@@ -382,17 +412,120 @@ public class Environment {
         printMenu();
     }
 
+    private static void trialLoop(int avgCon1, int avgCon2, double sd1, double sd2) {
+        Environment environment;
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
+        LocalDateTime now = LocalDateTime.now();
+        System.out.println(dtf.format(now));
+        String filename = "results/" + dtf.format(now) + ".txt";
+        File file = new File(filename);
+        FileWriter fileWriter;
+
+        int numOfTrials = 1000;
+        int numOfPeople = 100;
+        int numOfInteractions = 100000;
+        int count;
+        long curTime = System.nanoTime();
+        long prevTime;
+
+        System.out.println(filename);
+
+
+        try {
+            if (!file.createNewFile()) {
+                System.out.println("File Error");
+                return;
+            } else {
+                System.out.println(file.getName() + " created");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+        try {
+            fileWriter = new FileWriter(filename);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        try {
+            fileWriter.write("Number of trials: ");
+            fileWriter.write(Integer.toString(numOfTrials));
+            fileWriter.write("\nNumber of people: ");
+            fileWriter.write(Integer.toString(numOfPeople));
+            fileWriter.write("\nNumber of interactions: ");
+            fileWriter.write(Integer.toString(numOfInteractions));
+            fileWriter.write("\nAverage conviction 1: ");
+            fileWriter.write(Integer.toString(avgCon1));
+            fileWriter.write("\nAverage std dev 1: ");
+            fileWriter.write(Double.toString(sd1));
+            fileWriter.write("\nAverage conviction 2: ");
+            fileWriter.write(Integer.toString(avgCon2));
+            fileWriter.write("\nAverage std dev 2: ");
+            fileWriter.write(Double.toString(sd1));
+            fileWriter.write("\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        for (int y = 0; y < (numOfPeople / 10) * 3; y++) {
+            count = 0;
+            for (int x = 0; x < numOfTrials; x++) {
+                environment = new Environment(0, 0, 2);
+                environment.addPersonsWithMedia(0, 1, 0, avgCon1, sd1, (numOfPeople / 10) + y);
+                environment.addPersonsWithMedia(1, 1, 0, avgCon2, sd2, (numOfPeople - (numOfPeople / 10)) - y);
+                environment.sim_interactions(numOfInteractions);
+                if (environment.popularBelief.getId() == 0) {
+                    count++;
+                    if (environment.expressedBeliefsCount.get(0) < numOfPeople * 0.9) {
+                        System.out.println("Low Popularity: " + environment.expressedBeliefsCount.get(0));
+                    }
+                } else {
+                    if (environment.expressedBeliefsCount.get(1) < numOfPeople * 0.75 - y) {
+                        System.out.println("Low UnPopularity: " + environment.expressedBeliefsCount.get(0));
+                    }
+                }
+            }
+
+            prevTime = curTime;
+            curTime = System.nanoTime();
+            System.out.println(y);
+            System.out.println("Trials runtime:" + Long.toString((curTime - prevTime) / 1000000000));
+            
+            try {
+                fileWriter.write(Integer.toString(numOfPeople / 10 + y));
+                fileWriter.write("/");
+                fileWriter.write(Integer.toString(numOfPeople));
+                fileWriter.write(": ");
+                fileWriter.write(Double.toString((double) count / numOfTrials));
+                fileWriter.write("\n");
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.out.println("File Writing Error");
+                return;
+            }
+        }
+        now = LocalDateTime.now();
+        try {
+            fileWriter.write(dtf.format(now));
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        int command = 0;
-        int numPeople = 0;
-        int numMedia = 0;
-        int numBeliefs = 2;
-        Environment environment = new Environment(numPeople, numMedia, numBeliefs);
-        environment.printMenu();
-        while (command != -1) {
-            command = scanner.nextInt();
-            environment.commandLineController(command);
+        int avgCon1 = 50;
+        int avgCon2 = 50;
+        double sd1 = 0;
+        double sd2 = 0;
+
+        for (int x = 0; x < 50; x += 5) {
+            for (int y = x + 5; y <= 50; y += 5) {
+                trialLoop(avgCon1 + y, avgCon2 + x, sd1, sd2);
+            }
         }
     }
 }
