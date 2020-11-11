@@ -1,8 +1,6 @@
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.Vector;
@@ -414,10 +412,7 @@ public class Environment {
 
     private static void trialLoop(int avgCon1, int avgCon2, double sd1, double sd2) {
         Environment environment;
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
-        LocalDateTime now = LocalDateTime.now();
-        System.out.println(dtf.format(now));
-        String filename = "results/" + dtf.format(now) + ".txt";
+        String filename = "results/" + "a1-" + avgCon1 + "a2-" + avgCon2 + "sd-" + sd1 + ".txt";
         File file = new File(filename);
         FileWriter fileWriter;
 
@@ -464,17 +459,17 @@ public class Environment {
             fileWriter.write(Integer.toString(avgCon2));
             fileWriter.write("\nAverage std dev 2: ");
             fileWriter.write(Double.toString(sd1));
-            fileWriter.write("\n");
+            fileWriter.write("\n\n\nresults:\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        for (int y = 0; y < (numOfPeople / 10) * 3; y++) {
+        for (int y = 1; y < (numOfPeople / 2); y++) {
             count = 0;
             for (int x = 0; x < numOfTrials; x++) {
                 environment = new Environment(0, 0, 2);
-                environment.addPersonsWithMedia(0, 1, 0, avgCon1, sd1, (numOfPeople / 10) + y);
-                environment.addPersonsWithMedia(1, 1, 0, avgCon2, sd2, (numOfPeople - (numOfPeople / 10)) - y);
+                environment.addPersonsWithMedia(0, 1, 0, avgCon1, sd1, y);
+                environment.addPersonsWithMedia(1, 1, 0, avgCon2, sd2, numOfPeople - y);
                 environment.sim_interactions(numOfInteractions);
                 if (environment.popularBelief.getId() == 0) {
                     count++;
@@ -492,9 +487,9 @@ public class Environment {
             curTime = System.nanoTime();
             System.out.println(y);
             System.out.println("Trials runtime:" + Long.toString((curTime - prevTime) / 1000000000));
-            
+
             try {
-                fileWriter.write(Integer.toString(numOfPeople / 10 + y));
+                fileWriter.write(Integer.toString(y));
                 fileWriter.write("/");
                 fileWriter.write(Integer.toString(numOfPeople));
                 fileWriter.write(": ");
@@ -506,9 +501,7 @@ public class Environment {
                 return;
             }
         }
-        now = LocalDateTime.now();
         try {
-            fileWriter.write(dtf.format(now));
             fileWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -517,14 +510,21 @@ public class Environment {
     }
 
     public static void main(String[] args) {
-        int avgCon1 = 50;
-        int avgCon2 = 50;
-        double sd1 = 0;
-        double sd2 = 0;
+        int sd1 = 0;
+        int sd2 = 0;
 
-        for (int x = 0; x < 50; x += 5) {
-            for (int y = x + 5; y <= 50; y += 5) {
-                trialLoop(avgCon1 + y, avgCon2 + x, sd1, sd2);
+        for (int a1 = 20; a1 < 100; a1 += 20) {
+            for (int a2 = a1; a2 <= 100; a2 += 20) {
+                trialLoop(a2, a1, sd1, sd2);
+            }
+        }
+
+        sd1 = 10;
+        sd2 = 10;
+
+        for (int a1 = 50; a1 < 100; a1 += 25) {
+            for (int a2 = a1; a2 <= 100; a2 += 25) {
+                trialLoop(a2, a1, sd1, sd2);
             }
         }
     }
