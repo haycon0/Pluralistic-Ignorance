@@ -513,9 +513,9 @@ public class Environment {
         int sd1 = 0;
         int sd2 = 0;
 
-        for (int a1 = 20; a1 < 100; a1 += 20) {
-            for (int a2 = a1; a2 <= 100; a2 += 20) {
-                TrialThread thread = new TrialThread(a1,a2,sd1,sd2);
+        for (int a2 = 20; a2 < 100; a2 += 20) {
+            for (int a1 = a2; a1 <= 100; a1 += 20) {
+                TrialThread thread = new TrialThread(a1, a2, sd1, sd2);
                 thread.start();
             }
         }
@@ -523,9 +523,9 @@ public class Environment {
         sd1 = 10;
         sd2 = 10;
 
-        for (int a1 = 50; a1 < 100; a1 += 25) {
-            for (int a2 = a1; a2 <= 100; a2 += 25) {
-                TrialThread thread = new TrialThread(a1,a2,sd1,sd2);
+        for (int a2 = 50; a2 < 100; a2 += 25) {
+            for (int a1 = a2; a1 <= 100; a1 += 25) {
+                TrialThread thread = new TrialThread(a1, a2, sd1, sd2);
                 thread.start();
             }
         }
