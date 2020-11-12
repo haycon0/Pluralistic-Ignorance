@@ -410,9 +410,9 @@ public class Environment {
         printMenu();
     }
 
-    private static void trialLoop(int avgCon1, int avgCon2, double sd1, double sd2) {
+    public static void trialLoop(int avgCon1, int avgCon2, double sd1, double sd2) {
         Environment environment;
-        String filename = "results/" + "a1-" + avgCon1 + "a2-" + avgCon2 + "sd-" + sd1 + ".txt";
+        String filename = "results/" + "a1+" + avgCon1 + "a2+" + avgCon2 + "sd+" + sd1 + ".txt";
         File file = new File(filename);
         FileWriter fileWriter;
 
@@ -485,7 +485,7 @@ public class Environment {
 
             prevTime = curTime;
             curTime = System.nanoTime();
-            System.out.println(y);
+            System.out.println("trial #:" + y + " a1-" + avgCon1 + " a2-" + avgCon2);
             System.out.println("Trials runtime:" + Long.toString((curTime - prevTime) / 1000000000));
 
             try {
@@ -515,7 +515,8 @@ public class Environment {
 
         for (int a1 = 20; a1 < 100; a1 += 20) {
             for (int a2 = a1; a2 <= 100; a2 += 20) {
-                trialLoop(a2, a1, sd1, sd2);
+                TrialThread thread = new TrialThread(a1,a2,sd1,sd2);
+                thread.start();
             }
         }
 
@@ -524,7 +525,8 @@ public class Environment {
 
         for (int a1 = 50; a1 < 100; a1 += 25) {
             for (int a2 = a1; a2 <= 100; a2 += 25) {
-                trialLoop(a2, a1, sd1, sd2);
+                TrialThread thread = new TrialThread(a1,a2,sd1,sd2);
+                thread.start();
             }
         }
     }
