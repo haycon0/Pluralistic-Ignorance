@@ -412,7 +412,7 @@ public class Environment {
 
     public static void trialLoop(int avgCon1, int avgCon2, double sd1, double sd2) {
         Environment environment;
-        String filename = "results/" + "a1+" + avgCon1 + "a2+" + avgCon2 + "sd+" + sd1 + ".txt";
+        String filename = "results/" + "a1-" + avgCon1 + "a2-" + avgCon2 + "sd-" + sd1 + ".txt";
         File file = new File(filename);
         FileWriter fileWriter;
 
