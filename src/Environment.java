@@ -419,6 +419,8 @@ public class Environment {
         int numOfTrials = 1000;
         int numOfPeople = 100;
         int numOfInteractions = 100000;
+        int lowerBound = 1;
+        int upperBound = 50;
         int count;
         long curTime = System.nanoTime();
         long prevTime;
@@ -464,7 +466,7 @@ public class Environment {
             e.printStackTrace();
         }
 
-        for (int y = 1; y < (numOfPeople / 2); y++) {
+        for (int y = lowerBound; y < upperBound; y++) {
             count = 0;
             for (int x = 0; x < numOfTrials; x++) {
                 environment = new Environment(0, 0, 2);
@@ -485,7 +487,7 @@ public class Environment {
 
             prevTime = curTime;
             curTime = System.nanoTime();
-            System.out.println("trial #:" + y + " a1-" + avgCon1 + " a2-" + avgCon2);
+            System.out.println("trial #:" + (y) + " a1-" + avgCon1 + " a2-" + avgCon2);
             System.out.println("Trials runtime:" + Long.toString((curTime - prevTime) / 1000000000));
 
             try {
@@ -513,18 +515,8 @@ public class Environment {
         int sd1 = 0;
         int sd2 = 0;
 
-        for (int a2 = 20; a2 < 100; a2 += 20) {
-            for (int a1 = a2; a1 <= 100; a1 += 20) {
-                TrialThread thread = new TrialThread(a1, a2, sd1, sd2);
-                thread.start();
-            }
-        }
-
-        sd1 = 10;
-        sd2 = 10;
-
-        for (int a2 = 50; a2 < 100; a2 += 25) {
-            for (int a1 = a2; a1 <= 100; a1 += 25) {
+        for (int a2 = 50; a2 < 100; a2 += 5) {
+            for (int a1 = a2 + 5; a1 <= 100; a1 += 5) {
                 TrialThread thread = new TrialThread(a1, a2, sd1, sd2);
                 thread.start();
             }

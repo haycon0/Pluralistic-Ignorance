@@ -54,5 +54,7 @@ public class Display extends JComponent {
 
     public static void main(String[] args) {
         Display display = new Display();
+        display.environment.addPersonsWithMedia(0, 1, 0, 100, 0, 49);
+        display.environment.addPersonsWithMedia(1, 1, 0, 80, 0, 51);
     }
 }
