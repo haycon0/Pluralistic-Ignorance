@@ -474,11 +474,11 @@ public class Environment {
                 if (environment.popularBelief.getId() == 0) {
                     count++;
                     if (environment.expressedBeliefsCount.get(0) < numOfPeople * 0.9) {
-                        System.out.println("Low Popularity: " + environment.expressedBeliefsCount.get(0));
+                        System.out.println("Low Popularity: " + environment.expressedBeliefsCount.get(0) + " in " + filename);
                     }
                 } else {
                     if (environment.expressedBeliefsCount.get(1) < numOfPeople * 0.75 - y) {
-                        System.out.println("Low UnPopularity: " + environment.expressedBeliefsCount.get(0));
+                        System.out.println("Low UnPopularity: " + environment.expressedBeliefsCount.get(0)+ " in " + filename);
                     }
                 }
             }
