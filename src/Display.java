@@ -3,15 +3,15 @@ import java.awt.*;
 
 public class Display extends JComponent {
 
-    private PersonDisplay personDisplay;
-    private BeliefDisplay beliefDisplay;
-    private MediaDisplay mediaDisplay;
+    private final PersonDisplay personDisplay;
+    private final BeliefDisplay beliefDisplay;
+    private final MediaDisplay mediaDisplay;
     private Environment environment;
-    private JFrame frame;
+    private final JFrame frame;
     private JPanel beliefLabelPanel;
 
     Display() {
-        environment = new Environment(0, 0, 2);
+        environment = new Environment(0, 0, 0);
         beliefLabelPanel = new JPanel();
         beliefLabelPanel.setLayout(new BoxLayout(beliefLabelPanel, BoxLayout.X_AXIS));
         personDisplay = new PersonDisplay(environment.getPersonList());
@@ -45,7 +45,7 @@ public class Display extends JComponent {
     }
 
     public void reset() {
-        this.environment = new Environment(0, 0, 2);
+        this.environment = new Environment(0, 0, 0);
         beliefDisplay.resetBeliefLabels(beliefLabelPanel, environment.getBeliefList());
         mediaDisplay.reset(environment);
         frame.setVisible(false);
@@ -53,8 +53,17 @@ public class Display extends JComponent {
     }
 
     public static void main(String[] args) {
-        Display display = new Display();
-        display.environment.addPersonsWithMedia(0, 1, 0, 100, 0, 49);
-        display.environment.addPersonsWithMedia(1, 1, 0, 80, 0, 51);
+        Display display1 = new Display();
+        display1.environment.addBeliefWithName("Republican");
+        display1.environment.addBeliefWithName("Democrat");
+        display1.environment.addPersonsWithMedia(0, 1, 0, 90, 0, 37);
+        display1.environment.addPersonsWithMedia(1, 1, 0, 50, 0, 63);
+        display1.update();
+        Display display2 = new Display();
+        display2.environment.addBeliefWithName("Republican");
+        display2.environment.addBeliefWithName("Democrat");
+        display2.environment.addPersonsWithMedia(0, 1, 0, 90, 0, 37);
+        display2.environment.addPersonsWithMedia(1, 1, 0, 50, 0, 63);
+        display2.update();
     }
 }

@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="181c8ffa-d7da-4f63-9e16-29f31c9b23e4" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Circle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Circle.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Display.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Display.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Environment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Environment.java" afterDir="false" />
     </list>
@@ -51,7 +52,7 @@
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
-  <component name="RunManager" selected="Application.Environment">
+  <component name="RunManager" selected="Application.Display">
     <configuration name="&lt;template&gt;" type="TestNG" default="true" selected="false">
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
@@ -124,38 +125,38 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1537" height="281" key="GridCell.Tab.-1.right/0.0.1536.824@0.0.1536.824" timestamp="1603233693478" />
-    <state width="1537" height="215" key="GridCell.Tab.0.bottom" timestamp="1605492118464">
+    <state width="1537" height="215" key="GridCell.Tab.0.bottom" timestamp="1605579620031">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1537" height="215" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1605492118464" />
-    <state width="1537" height="215" key="GridCell.Tab.0.center" timestamp="1605492118463">
+    <state width="1537" height="215" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1605579620031" />
+    <state width="1537" height="215" key="GridCell.Tab.0.center" timestamp="1605579620031">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1537" height="215" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1605492118463" />
-    <state width="1537" height="215" key="GridCell.Tab.0.left" timestamp="1605492118463">
+    <state width="1537" height="215" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1605579620031" />
+    <state width="1537" height="215" key="GridCell.Tab.0.left" timestamp="1605579620031">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1537" height="215" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1605492118463" />
-    <state width="1537" height="215" key="GridCell.Tab.0.right" timestamp="1605492118464">
+    <state width="1537" height="215" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1605579620031" />
+    <state width="1537" height="215" key="GridCell.Tab.0.right" timestamp="1605579620031">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1537" height="215" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1605492118464" />
-    <state width="1537" height="281" key="GridCell.Tab.1.bottom" timestamp="1604807343017">
+    <state width="1537" height="215" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1605579620031" />
+    <state width="1537" height="281" key="GridCell.Tab.1.bottom" timestamp="1605570670698">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1537" height="281" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1604807343017" />
-    <state width="1537" height="281" key="GridCell.Tab.1.center" timestamp="1604807343016">
+    <state width="1537" height="281" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1605570670698" />
+    <state width="1537" height="281" key="GridCell.Tab.1.center" timestamp="1605570670698">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1537" height="281" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1604807343016" />
-    <state width="1537" height="281" key="GridCell.Tab.1.left" timestamp="1604807343016">
+    <state width="1537" height="281" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1605570670698" />
+    <state width="1537" height="281" key="GridCell.Tab.1.left" timestamp="1605570670697">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1537" height="281" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1604807343016" />
-    <state width="1537" height="281" key="GridCell.Tab.1.right" timestamp="1604807343016">
+    <state width="1537" height="281" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1605570670697" />
+    <state width="1537" height="281" key="GridCell.Tab.1.right" timestamp="1605570670698">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1537" height="281" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1604807343016" />
+    <state width="1537" height="281" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1605570670698" />
     <state x="0" y="133" width="1508" height="253" key="GridCell.Tab.2.bottom" timestamp="1603233678067">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -216,6 +217,11 @@
           <url>file://$PROJECT_DIR$/src/BeliefDisplay.java</url>
           <line>30</line>
           <option name="timeStamp" value="21" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/BeliefDisplay.java</url>
+          <line>19</line>
+          <option name="timeStamp" value="25" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

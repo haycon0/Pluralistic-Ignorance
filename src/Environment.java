@@ -140,6 +140,18 @@ public class Environment {
             popularBelief = beliefList.get(beliefID);
     }
 
+    private void addPersonWithName(int conviction, int beliefID, String name) {
+        int id = personList.size();
+        personList.add(new Person(id, beliefList.get(beliefID), conviction, name));
+
+        //Adds the base belief of the person to the expressed belief count
+        expressedBeliefsCount.set(beliefID, expressedBeliefsCount.get(beliefID) + 1);
+        if (popularBelief == null)
+            popularBelief = beliefList.get(beliefID);
+        if (expressedBeliefsCount.get(beliefID) > expressedBeliefsCount.get(popularBelief.getId()))
+            popularBelief = beliefList.get(beliefID);
+    }
+
     public void addPeople(int beliefID, int avgConviction, double sd, int count) {
         int conviction;
         Random random = new Random();
@@ -277,6 +289,12 @@ public class Environment {
     private void addBelief() {
         int id = beliefList.size();
         beliefList.add(new Belief(id));
+        expressedBeliefsCount.add(0);
+    }
+
+    public void addBeliefWithName(String name) {
+        int id = beliefList.size();
+        beliefList.add(new Belief(id, name));
         expressedBeliefsCount.add(0);
     }
 
@@ -514,12 +532,14 @@ public class Environment {
     public static void main(String[] args) {
         int sd1 = 0;
         int sd2 = 0;
+        TrialThread thread = new TrialThread(90, 50, sd1, sd2);
+        thread.start();
 
-        for (int a2 = 50; a2 < 100; a2 += 5) {
+        /*for (int a2 = 50; a2 < 100; a2 += 5) {
             for (int a1 = a2 + 5; a1 <= 100; a1 += 5) {
                 TrialThread thread = new TrialThread(a1, a2, sd1, sd2);
                 thread.start();
             }
-        }
+        }*/
     }
 }

@@ -27,13 +27,13 @@ public class Circle {
         Color color;
         switch (num) {
             case 0:
-                color = Color.MAGENTA;
+                color = Color.RED;
                 break;
             case 1:
-                color = Color.ORANGE;
+                color = new Color(51, 204, 255);
                 break;
             case 2:
-                color = Color.RED;
+                color = Color.MAGENTA;
                 break;
             case 3:
                 color = Color.YELLOW;
@@ -48,13 +48,16 @@ public class Circle {
                 color = Color.CYAN;
                 break;
             case 7:
-                color = Color.GRAY;
+                color = Color.ORANGE;
                 break;
             case 8:
                 color = Color.LIGHT_GRAY;
                 break;
             case 9:
                 color = Color.BLUE;
+                break;
+            case 10:
+                color = Color.GRAY;
                 break;
             default:
                 color = Color.BLACK;
