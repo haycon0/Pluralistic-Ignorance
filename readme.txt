@@ -18,3 +18,6 @@ For that you need to understand the API in Environment.java and edit it's main f
 You can also look at the data I found from the model and formated in the data folder
 
 If you have any questions about the model contact me at connor.g.hay@gmail.com
+
+chayboilermaker is another github account that I created and accidently commit from but all the
+code was written by me - connor
