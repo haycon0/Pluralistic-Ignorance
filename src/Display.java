@@ -54,16 +54,5 @@ public class Display extends JComponent {
 
     public static void main(String[] args) {
         Display display1 = new Display();
-        display1.environment.addBeliefWithName("Republican");
-        display1.environment.addBeliefWithName("Democrat");
-        display1.environment.addPersonsWithMedia(0, 1, 0, 90, 0, 37);
-        display1.environment.addPersonsWithMedia(1, 1, 0, 50, 0, 63);
-        display1.update();
-        Display display2 = new Display();
-        display2.environment.addBeliefWithName("Republican");
-        display2.environment.addBeliefWithName("Democrat");
-        display2.environment.addPersonsWithMedia(0, 1, 0, 90, 0, 37);
-        display2.environment.addPersonsWithMedia(1, 1, 0, 50, 0, 63);
-        display2.update();
     }
 }
