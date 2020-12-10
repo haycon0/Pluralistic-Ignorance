@@ -1,5 +1,5 @@
+import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.Vector;
 
 public class Person {
@@ -9,9 +9,9 @@ public class Person {
     private final String name;
 
     // these data structures are to calculate expressed belief
-    private Vector<Media> mediaInteractions;
-    private Map<Integer, Integer> mediaInteractionCounts;
-    private Map<Integer, Belief> knownBeliefs;
+    private final Vector<Media> mediaInteractions;
+    private final Map<Integer, Integer> mediaInteractionCounts;
+    private final Map<Integer, Belief> knownBeliefs;
     private int maxInteractionAmount;
     private int maxInteractionID;
 
@@ -20,9 +20,9 @@ public class Person {
         this.baseBelief = baseBelief;
         this.conviction = conviction;
         name = "Person" + id;
-        mediaInteractions = new Vector<Media>(); //Stores all media interactions
-        mediaInteractionCounts = new TreeMap<Integer, Integer>(); // Stores the ID and number of interactions with each belief
-        knownBeliefs = new TreeMap<Integer, Belief>(); // Stores the beliefs of media interacted with
+        mediaInteractions = new Vector<>(); //Stores all media interactions
+        mediaInteractionCounts = new HashMap<>(); // Stores the ID and number of interactions with each belief
+        knownBeliefs = new HashMap<>(); // Stores the beliefs of media interacted with
     }
 
     Person(int id, Belief baseBelief, int conviction, String name) {
@@ -30,9 +30,9 @@ public class Person {
         this.baseBelief = baseBelief;
         this.conviction = conviction;
         this.name = name;
-        mediaInteractions = new Vector<Media>(); //Stores all media interactions
-        mediaInteractionCounts = new TreeMap<Integer, Integer>(); // Stores the ID and number of interactions with each belief
-        knownBeliefs = new TreeMap<Integer, Belief>(); // Stores the beliefs of media interacted with
+        mediaInteractions = new Vector<>(); //Stores all media interactions
+        mediaInteractionCounts = new HashMap<>(); // Stores the ID and number of interactions with each belief
+        knownBeliefs = new HashMap<>(); // Stores the beliefs of media interacted with
     }
 
     public int getId() {
